@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     #my apps
     'home_app',
     'todo_app',
+    'rest_framework',
     
 ]
 
