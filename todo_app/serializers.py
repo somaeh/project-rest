@@ -8,9 +8,10 @@ from .models import User
 class Todoserializers(serializers.ModelSerializer):
     class Meta:
         model = Todo
-        fields =['title', 'content', 'user']
+        fields = "__all__"
+        
         
 class  Userserializers(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['username', 'password']
+        fields ="__all__"
