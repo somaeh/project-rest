@@ -10,6 +10,7 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.parsers import JSONParser
 from rest_framework.views import APIView 
+from rest_framework import generics, mixins
 
 
 #region function base view
@@ -52,25 +53,33 @@ def todo_details_view(request: Request, todo_id:int):
     elif request.method == 'DELETE':
         todo.delete()
         return Response("not found", status.HTTP_404_NOT_FOUND)
-#endregion    
+   
+
+    
+    
+    
+        
+
+    
+
+
 #region class base view
+
 class TodosListApiview(APIView):
     def get(self, request: Request):
-        todos = Todo.objects.all()
-        serializer1 = Todoserializers(todos, many=True)
-        return Response(serializer1.data, status.HTTP_200_OK)
-       
+      todos = Todo.objects.all()
+      serializer1 = Todoserializers(todos, many=True)
+      return Response(serializer1.data, status.HTTP_200_OK)
     def post(self, request: Request):
         serializer2 = Todoserializers(data=request.data)
         if serializer2.is_valid():
             serializer2.save()
             return Response(serializer2.data, status.HTTP_201_CREATED)
         else:
-             return Response("you only use get or post", status.HTTP_400_BAD_REQUEST)
-class TodosdetailsApiview(APIView):
+            return Response("not fpund", status.HTTP_400_BAD_REQUEST)
+class TodosDetailApiview(APIView):
     
-    
-    def get_object(self, todo_id:int):
+    def get_object(self, todo_id: int):
         try:
             todo = Todo.objects.get(pk=todo_id)
             return todo
@@ -78,13 +87,16 @@ class TodosdetailsApiview(APIView):
             return Response("not found", status.HTTP_404_NOT_FOUND)
             
         
-    def get(self, request: Request, todo_id:int):
+    
+    def get(self, request: Request, todo_id: int):
         todo = self.get_object(todo_id)
         serializer = Todoserializers(todo)
         return Response(serializer.data, status.HTTP_200_OK)
         
-
         
+      
+            
+    
     def put(self, request: Request, todo_id: int):
         todo = self.get_object(todo_id)
         serializer_put = Todoserializers(todo, data=request.data)
@@ -92,18 +104,42 @@ class TodosdetailsApiview(APIView):
             serializer_put.save()
             return Response(serializer_put.data, status.HTTP_202_ACCEPTED)
         return Response("ddd", status.HTTP_400_BAD_REQUEST)
-        
-
+                                           
+      
     def delete(self, request: Request, todo_id: int):
-        todo = self.get_object(todo_id)
-        todo.delete()
-        return Response("not found", status.HTTP_404_NOT_FOUND)
-        
-    
-
-    
+         todo = self.get_object(todo_id)
+         todo.delete()
+         return Response("not found", status.HTTP_404_NOT_FOUND)
+          
 #endregion
 
+
+#region mixins
+class TodosListMixinsApiview(mixins.ListModelMixin, mixins.CreateModelMixin, generics.GenericAPIView):
+    queryset = Todo.objects.all()
+    serializer_class = Todoserializers
+    
+    def get(self, request: Request):
+        return self.list(request)
+    def post(self, request: Request):
+        return self.create(request)
+    
+    
+class TodosDetailMixinsApiview(mixins.RetrieveModelMixin, mixins.UpdateModelMixin, mixins.DestroyModelMixin, generics.GenericAPIView):
+    queryset = Todo.objects.all()
+    serializer_class = Todoserializers
+    
+    def get(self, request: Request, pk):
+        return self.retrieve(request, pk)
+    def put(self, request: Request, pk):
+        return self.update(request, pk)
+    def delete(self, request: Request, pk):
+        return self.destroy(request, pk)
+
+    
+
+
+#endregion
 
 
     
