@@ -140,6 +140,17 @@ class TodosDetailMixinsApiview(mixins.RetrieveModelMixin, mixins.UpdateModelMixi
 
 
 #endregion
+#region generics
+class TodoGenericApiview(generics.ListCreateAPIView):
+    queryset = Todo.objects.all()
+    serializer_class = Todoserializers
+    
+class TodoGenericDtailApiview(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Todo.objects.all()
+    serializer_class = Todoserializers
+
+    
+#endregion
 
 
     

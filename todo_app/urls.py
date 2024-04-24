@@ -10,6 +10,9 @@ urlpatterns=[
     path('cbv/<int:todo_id>', views.TodosDetailApiview.as_view()),
     path('mixins/', views.TodosListMixinsApiview.as_view()),
     path('mixins/<int:pk>', views.TodosDetailMixinsApiview.as_view()),
+    path('generics/', views.TodoGenericApiview.as_view()),
+    path('generics/<int:pk>', views.TodoGenericDtailApiview.as_view()),
+
   
     
 ]
