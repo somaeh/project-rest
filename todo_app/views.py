@@ -11,6 +11,7 @@ from rest_framework.decorators import api_view
 from rest_framework.parsers import JSONParser
 from rest_framework.views import APIView 
 from rest_framework import generics, mixins
+from rest_framework import viewsets
 
 
 #region function base view
@@ -150,6 +151,13 @@ class TodoGenericDtailApiview(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = Todoserializers
 
     
+#endregion
+#region viewset
+
+class TodoViewApiview(viewsets.ModelViewSet):
+    queryset = Todo.objects.all()
+    serializer_class = Todoserializers
+
 #endregion
 
 
