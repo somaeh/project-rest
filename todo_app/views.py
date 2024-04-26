@@ -12,6 +12,9 @@ from rest_framework.parsers import JSONParser
 from rest_framework.views import APIView 
 from rest_framework import generics, mixins
 from rest_framework import viewsets
+from django.contrib.auth import get_user_model
+
+user = get_user_model()
 
 
 #region function base view
@@ -157,6 +160,14 @@ class TodoGenericDtailApiview(generics.RetrieveUpdateDestroyAPIView):
 class TodoViewApiview(viewsets.ModelViewSet):
     queryset = Todo.objects.all()
     serializer_class = Todoserializers
+
+#endregion
+#region user
+
+class UsersGenericApiview(generics.ListAPIView):
+    queryset = User.objects.all()
+    serializer_class =  Userserializers
+    
 
 #endregion
 

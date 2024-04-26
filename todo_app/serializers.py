@@ -12,6 +12,7 @@ class Todoserializers(serializers.ModelSerializer):
         
         
 class  Userserializers(serializers.ModelSerializer):
+    todos = Todoserializers(read_only=True, many=True)
     class Meta:
         model = User
         fields ="__all__"

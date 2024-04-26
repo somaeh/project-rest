@@ -16,7 +16,7 @@ class User(models.Model):
     
 class Todo(models.Model):
     
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True )
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, related_name='todos' )
     
     title = models.CharField(max_length=300)
     content = models.TextField()
