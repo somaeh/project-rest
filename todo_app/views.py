@@ -15,6 +15,10 @@ from rest_framework import viewsets
 from django.contrib.auth import get_user_model
 from rest_framework.pagination import PageNumberPagination, LimitOffsetPagination
 
+from rest_framework.authentication import BasicAuthentication
+from rest_framework.permissions import IsAuthenticated
+# from rest_framework.authentication import BasicAuthentication
+# from rest_framework.permissions import IsAuthenticated
 user = get_user_model()
 
 
@@ -161,6 +165,10 @@ class TodoGenericApiview(generics.ListCreateAPIView):
     queryset = Todo.objects.all()
     serializer_class = Todoserializers
     pagination_class = TodosGenericsPaginatioApiview
+    # authentication_classes = [BasicAuthentication]
+    # permission_classes = [IsAuthenticated]
+    authentication_classes = [BasicAuthentication]
+    permission_classes = [IsAuthenticated]
 
     
 class TodoGenericDtailApiview(generics.RetrieveUpdateDestroyAPIView):
